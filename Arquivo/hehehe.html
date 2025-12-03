@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Modo Férias - Setor Comercial</title>
+  <style>
+    :root {
+      --blue: #0056b3;
+      --blue-dark: #003f80;
+      --white: #ffffff;
+      --yellow: #ffd54f;
+      --green: #4caf50;
+      --red: #ff5252;
+      --font-main: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--blue);
+      color: var(--white);
+      font-family: var(--font-main);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+
+    /* --- SPLASH (MEGAFONE) --- */
+
+    .splash {
+      max-width: 520px;
+      width: 100%;
+      border-radius: 14px;
+      background: #ffffff;
+      color: #222;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+      padding: 24px 20px 18px;
+      text-align: center;
+    }
+
+    .splash-icon {
+      width: 110px;
+      height: auto;
+      margin-bottom: 10px;
+    }
+
+    .splash-title {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .splash-text {
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+
+    .splash-strong { font-weight: 700; }
+
+    .splash-loading {
+      font-size: 13px;
+      margin-bottom: 8px;
+    }
+
+    .splash-btn {
+      margin-top: 10px;
+      display: none;
+      padding: 8px 16px;
+      border-radius: 999px;
+      border: none;
+      cursor: pointer;
+      background: #0056b3;
+      color: #fff;
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .dotting::after {
+      content: "";
+      display: inline-block;
+      width: 1.5em;
+      text-align: left;
+      animation: dots 1.2s steps(4, end) infinite;
+    }
+
+    @keyframes dots {
+      0%,20% { content: ""; }
+      40% { content: "."; }
+      60% { content: ".."; }
+      80%,100% { content: "..."; }
+    }
+
+    /* --- TELA PRINCIPAL --- */
+
+    .screen {
+      max-width: 520px;
+      width: 100%;
+      border: 2px solid rgba(255, 255, 255, 0.4);
+      padding: 24px 20px 18px;
+      background: linear-gradient(135deg, var(--blue-dark), var(--blue));
+      box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+      border-radius: 14px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .top-ribbon {
+      position: absolute;
+      top: -28px;
+      right: -40px;
+      background: var(--yellow);
+      color: #333;
+      padding: 6px 40px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      transform: rotate(18deg);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.35);
+    }
+
+    .title-line {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .title-icon { font-size: 28px; }
+
+    .title-text {
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .badge {
+      display: inline-block;
+      background: var(--yellow);
+      color: #333;
+      padding: 3px 10px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 10px;
+    }
+
+    .paragraph {
+      font-size: 15px;
+      line-height: 1.5;
+      margin-bottom: 8px;
+    }
+
+    .highlight { font-weight: 700; }
+
+    .fake-code {
+      font-family: "Consolas","Courier New",monospace;
+      background: rgba(0,0,0,0.25);
+      padding: 3px 8px;
+      border-radius: 4px;
+      display: inline-block;
+      margin: 4px 0 10px;
+      font-size: 13px;
+    }
+
+    .loading {
+      font-size: 13px;
+      margin-top: 2px;
+      margin-bottom: 8px;
+      opacity: 0.9;
+    }
+
+    .bar-label {
+      font-size: 11px;
+      opacity: 0.9;
+      margin-bottom: 6px;
+    }
+
+    .bar-wrapper {
+      margin: 10px 0 6px;
+      background: rgba(0,0,0,0.3);
+      border-radius: 999px;
+      overflow: hidden;
+      height: 12px;
+    }
+
+    .bar {
+      height: 100%;
+      width: 0;
+      background: linear-gradient(90deg, var(--yellow), var(--green));
+      transition: width 0.3s ease;
+    }
+
+    .alert-box {
+      background: rgba(0,0,0,0.22);
+      border-radius: 10px;
+      padding: 10px 12px;
+      margin: 8px 0 6px;
+      font-size: 13px;
+    }
+
+    .alert-title {
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .alert-list {
+      margin-left: 18px;
+      margin-top: 4px;
+    }
+
+    .alert-list li { margin-bottom: 3px; }
+
+    .form {
+      margin-top: 10px;
+      border-top: 1px solid rgba(255,255,255,0.35);
+      padding-top: 10px;
+    }
+
+    .label {
+      font-size: 12px;
+      margin-bottom: 4px;
+      display: block;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      opacity: 0.9;
+    }
+
+    .input, .textarea {
+      width: 100%;
+      padding: 7px 9px;
+      border-radius: 6px;
+      border: 1px solid rgba(255,255,255,0.7);
+      background: rgba(0,0,0,0.25);
+      color: var(--white);
+      font-size: 14px;
+      outline: none;
+      margin-bottom: 8px;
+      font-family: var(--font-main);
+    }
+
+    .input::placeholder,
+    .textarea::placeholder {
+      color: rgba(255,255,255,0.7);
+    }
+
+    .textarea {
+      min-height: 60px;
+      resize: vertical;
+    }
+
+    .options {
+      margin: 6px 0 4px;
+      font-size: 13px;
+    }
+
+    .checkbox {
+      display: flex;
+      align-items: flex-start;
+      gap: 6px;
+      margin-bottom: 4px;
+      cursor: pointer;
+      user-select: none;
+      font-size: 13px;
+    }
+
+    .checkbox input {
+      width: 16px;
+      height: 16px;
+      margin-top: 2px;
+    }
+
+    .btn-row {
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+      margin-top: 10px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      border-radius: 999px;
+      padding: 8px 16px;
+      border: none;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 600;
+      font-family: var(--font-main);
+      transition: transform 0.1s, box-shadow 0.15s, background 0.15s;
+    }
+
+    .btn-primary {
+      background: var(--green);
+      color: var(--white);
+      box-shadow: 0 4px 14px rgba(0,0,0,0.35);
+    }
+
+    .btn-danger {
+      background: var(--red);
+      color: var(--white);
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.45);
+    }
+
+    .btn-primary:hover { background: #45a047; }
+    .btn-danger:hover { background: #ff1744; }
+
+    .btn-small {
+      padding: 6px 12px;
+      font-size: 12px;
+      box-shadow: none;
+    }
+
+    .status {
+      display: none;
+      margin-top: 16px;
+      padding-top: 12px;
+      border-top: 1px dashed rgba(255,255,255,0.5);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .status-title {
+      font-weight: 700;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .status-emoji { font-size: 22px; }
+
+    .tiny {
+      font-size: 11px;
+      margin-top: 8px;
+      opacity: 0.9;
+    }
+
+    /* --- BLOCO DO VÍDEO --- */
+
+    .video-box {
+      margin-top: 18px;
+      padding-top: 12px;
+      border-top: 1px solid rgba(255,255,255,0.25);
+      margin-bottom: 6px;
+    }
+
+    .video-title {
+      font-size: 15px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .video-tip {
+      font-size: 13px;
+      margin-bottom: 10px;
+      opacity: 0.95;
+    }
+
+    .video-tip span {
+      font-weight: 700;
+    }
+
+    .video-player {
+      width: 100%;
+      max-height: 260px;
+      border-radius: 10px;
+      border: 1px solid rgba(255,255,255,0.5);
+      background: #000;
+    }
+
+    .footer {
+      margin-top: 10px;
+      font-size: 12px;
+      opacity: 0.95;
+      border-top: 1px solid rgba(255,255,255,0.25);
+      padding-top: 8px;
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .sound-tip {
+      font-size: 11px;
+      opacity: 0.9;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .sound-tip button {
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.8);
+      background: transparent;
+      color: var(--white);
+      font-size: 11px;
+      padding: 4px 10px;
+      cursor: pointer;
+    }
+
+    .confetti {
+      position: absolute;
+      width: 6px;
+      height: 10px;
+      background: var(--yellow);
+      top: -10px;
+      left: 50%;
+      opacity: 0;
+      pointer-events: none;
+      animation: confetti-fall 1.4s ease-out forwards;
+    }
+
+    @keyframes confetti-fall {
+      0% { transform: translate(-50%, -10px) rotate(0deg); opacity: 0; }
+      20% { opacity: 1; }
+      100% { transform: translate(calc(-50% + var(--x)), 140px) rotate(220deg); opacity: 0; }
+    }
+
+    @media (max-width: 480px) {
+      .screen, .splash { padding: 18px 14px 14px; }
+      .title-text { font-size: 18px; }
+      .paragraph { font-size: 14px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- SPLASH COM MEGAFONE -->
+  <section class="splash" id="splash">
+    <img src="megafone.png" alt="Megafone" class="splash-icon" />
+    <h1 class="splash-title">Atenção, setor comercial!</h1>
+    <p class="splash-text">
+      Recado especial do <span class="splash-strong">T.I do Miquéias</span>
+      pra você que está indo descansar.
+    </p>
+    <p class="splash-text">
+      Ative o som do celular, respira fundo e aguarde o toque da corneta
+      pra entrar no <span class="splash-strong">Modo Férias</span>. 😎
+    </p>
+    <p class="splash-loading dotting">Preparando a zoeira oficial das férias</p>
+    <button type="button" class="splash-btn" id="btn-start">
+      Tocar corneta e entrar
+    </button>
+  </section>
+
+  <!-- TELA PRINCIPAL (COMEÇA OCULTA) -->
+  <main class="screen" id="main-screen" style="display:none;">
+    <div class="top-ribbon">Setor Comercial em Férias</div>
+
+    <div class="title-line">
+      <span class="title-icon">📞</span>
+      <h1 class="title-text">Modo Férias Ativado</h1>
+    </div>
+
+    <span class="badge">Hoje é o último dia</span>
+
+    <p class="paragraph">
+      O sistema identificou que você merece um descanso <span class="highlight">URGENTE</span>.
+      A partir de agora você está entrando no <span class="highlight">Modo Férias do Comercial</span>.
+    </p>
+
+    <p class="fake-code">
+      status_comercial = "fora de área para metas, ligações e cobranças";
+    </p>
+
+    <p class="loading dotting">Carregando pacote de descanso máximo</p>
+
+    <p class="bar-label">Progresso para o modo férias 100%:</p>
+    <div class="bar-wrapper">
+      <div class="bar" id="bar"></div>
+    </div>
+
+    <div class="alert-box">
+      <div class="alert-title">Durante as férias você está oficialmente proibido de:</div>
+      <ul class="alert-list">
+        <li>📵 Atender ligações da empresa (nem “rapidinho”).</li>
+        <li>📧 Responder e-mail de cliente dizendo “assim que eu chegar no escritório eu vejo”.</li>
+        <li>💬 Falar de meta no grupo do WhatsApp.</li>
+        <li>📊 Abrir planilha de comissão “só pra dar uma olhada”.</li>
+      </ul>
+    </div>
+
+    <section class="form" id="fake-form">
+      <label class="label" for="plano">Plano oficial para as férias:</label>
+      <input class="input" id="plano" type="text" placeholder="Dormir, praia, série, churrasco, sumir do mapa..." />
+
+      <p class="options">Confirme que você entendeu as regras do Modo Férias:</p>
+
+      <label class="checkbox">
+        <input type="checkbox" id="chk1" />
+        <span>Não vou atender ligação da empresa (nem de número estranho suspeito 😎).</span>
+      </label>
+
+      <label class="checkbox">
+        <input type="checkbox" id="chk2" />
+        <span>Grupo do comercial no WhatsApp: no silencioso, arquivado e longe da vista.</span>
+      </label>
+
+      <label class="checkbox">
+        <input type="checkbox" id="chk3" />
+        <span>Se falar de meta nas férias, perco automaticamente 1 dia de descanso.</span>
+      </label>
+
+      <label class="label" for="mensagem">Mensagem para o “você” que vai voltar das férias:</label>
+      <textarea class="textarea" id="mensagem" placeholder="Ex.: Não aceita reunião às 8h da manhã nunca mais..."></textarea>
+
+      <div class="btn-row">
+        <button type="button" class="btn btn-danger btn-small" id="btn-trabalhar">
+          Atender ligação da empresa
+        </button>
+        <button type="button" class="btn btn-primary" id="btn-ativar">
+          Confirmar Modo Férias
+        </button>
+      </div>
+    </section>
+
+    <section class="status" id="status-box">
+      <div class="status-title">
+        Status do sistema: FÉRIAS INICIADAS
+        <span class="status-emoji">🏖️</span>
+      </div>
+
+      <p class="paragraph">
+        A partir de agora, qualquer tentativa de falar com você sobre
+        <span class="highlight">meta</span>, <span class="highlight">cliente</span> ou
+        <span class="highlight">relatório</span> será redirecionada automaticamente
+        para a caixa de entrada do universo.
+      </p>
+
+      <p class="paragraph">
+        Sua nova rotina foi atualizada para:<br>
+        <span class="fake-code">comer → rir → dormir → repetir;</span>
+      </p>
+
+      <p class="tiny">
+        Se bater vontade de atender ligação da empresa, tome água, respire fundo
+        e lembre: você está oficialmente <strong>fora de área</strong>.
+      </p>
+    </section>
+
+    <!-- BLOCO DO VÍDEO -->
+    <section class="video-box">
+      <h2 class="video-title">Faça como o seu nobre T.I 😎🍺</h2>
+      <p class="video-tip">
+        <span>Tutorial oficial de férias bem aproveitadas:</span><br>
+        ir pra casa, abrir uma cerveja, esquecer as ligações da empresa
+        e simplesmente <strong>descansar de verdade</strong>.
+      </p>
+
+      <!-- Vídeo do Miquéias em casa curtindo a folga -->
+      <video
+        class="video-player"
+        src="ti-ferias.mp4"
+        controls
+        playsinline
+      >
+        Seu navegador não suporta vídeo HTML5.
+      </video>
+    </section>
+
+    <div class="footer">
+      <span>Um abraço do seu T.I, <strong>Miquéias</strong> 💙</span>
+      <div class="sound-tip">
+        🔊 Quer ouvir a corneta de novo?
+        <button type="button" id="btn-som">tocar som</button>
+      </div>
+    </div>
+
+    <!-- CORNETA (som de alerta) -->
+    <audio id="alert-sound" src="corneta.mp3" preload="auto"></audio>
+
+    <!-- SOM DE FUNDO (começa após a corneta) -->
+    <audio id="bg-sound" src="fundo.mp3" preload="auto" loop></audio>
+  </main>
+
+  <script>
+    const splash = document.getElementById("splash");
+    const mainScreen = document.getElementById("main-screen");
+    const btnStart = document.getElementById("btn-start");
+
+    const form = document.getElementById("fake-form");
+    const statusBox = document.getElementById("status-box");
+    const btnAtivar = document.getElementById("btn-ativar");
+    const btnTrabalhar = document.getElementById("btn-trabalhar");
+    const chk1 = document.getElementById("chk1");
+    const chk2 = document.getElementById("chk2");
+    const chk3 = document.getElementById("chk3");
+    const audio = document.getElementById("alert-sound");   // corneta
+    const bgAudio = document.getElementById("bg-sound");    // som de fundo
+    const btnSom = document.getElementById("btn-som");
+    const bar = document.getElementById("bar");
+
+    function iniciarProgresso() {
+      if (!bar) return;
+      let progress = 0;
+      const interval = setInterval(() => {
+        if (progress < 100) {
+          progress += 5;
+          bar.style.width = progress + "%";
+        } else {
+          clearInterval(interval);
+        }
+      }, 220);
+    }
+
+    function iniciarSomDeFundo() {
+      if (!bgAudio) return;
+      bgAudio.volume = 0.35;
+      bgAudio.play().catch(() => {
+        // se o navegador bloquear, deixa sem fundo mesmo
+      });
+    }
+
+    function entrarTelaPrincipal() {
+      if (splash) splash.style.display = "none";
+      if (mainScreen) mainScreen.style.display = "block";
+      iniciarProgresso();
+      iniciarSomDeFundo();
+    }
+
+    // toca corneta e, quando terminar, entra na tela principal
+    function tocarCornetaEEntrar() {
+      if (!audio) {
+        entrarTelaPrincipal();
+        return;
+      }
+      audio.volume = 0.9;
+      audio.currentTime = 0;
+      audio.play().then(() => {
+        audio.addEventListener("ended", entrarTelaPrincipal, { once: true });
+      }).catch(() => {
+        // se não conseguir tocar, entra direto
+        entrarTelaPrincipal();
+      });
+    }
+
+    // tenta tocar automaticamente ao carregar
+    window.addEventListener("load", () => {
+      if (!audio) {
+        entrarTelaPrincipal();
+        return;
+      }
+
+      audio.volume = 0.9;
+      audio.play().then(() => {
+        audio.addEventListener("ended", entrarTelaPrincipal, { once: true });
+      }).catch(() => {
+        // navegador bloqueou autoplay -> mostra botão manual
+        if (btnStart) btnStart.style.display = "inline-block";
+      });
+    });
+
+    // botão do splash (caso o autoplay seja bloqueado)
+    if (btnStart) {
+      btnStart.addEventListener("click", () => {
+        btnStart.style.display = "none";
+        tocarCornetaEEntrar();
+      });
+    }
+
+    function soltarConfete() {
+      const container = mainScreen;
+      if (!container) return;
+      for (let i = 0; i < 12; i++) {
+        const c = document.createElement("div");
+        c.className = "confetti";
+        c.style.left = `${20 + Math.random() * 60}%`;
+        c.style.setProperty("--x", `${(Math.random() - 0.5) * 120}px`);
+        c.style.background = i % 2 === 0 ? "#ffd54f" : "#4caf50";
+        container.appendChild(c);
+        setTimeout(() => c.remove(), 1500);
+      }
+    }
+
+    // botão "Confirmar Modo Férias"
+    if (btnAtivar) {
+      btnAtivar.addEventListener("click", () => {
+        if (!chk1.checked || !chk2.checked || !chk3.checked) {
+          alert("Antes de ativar o Modo Férias, marque todas as confirmações. 😉");
+          return;
+        }
+
+        form.style.display = "none";
+        statusBox.style.display = "block";
+        soltarConfete();
+
+        try {
+          audio.volume = 0.9;
+          audio.currentTime = 0;
+          audio.play();
+        } catch (e) {}
+      });
+    }
+
+    // botão "Atender ligação da empresa"
+    if (btnTrabalhar) {
+      btnTrabalhar.addEventListener("click", () => {
+        alert("Ação bloqueada!\n\nO sistema detectou tentativa de trabalhar nas férias.\nPor favor, largue o celular e volte a descansar. 😜");
+        try {
+          audio.volume = 0.9;
+          audio.currentTime = 0;
+          audio.play();
+        } catch (e) {}
+      });
+    }
+
+    // botão "tocar corneta" no rodapé
+    if (btnSom) {
+      btnSom.addEventListener("click", () => {
+        if (!audio) return;
+        audio.volume = 0.9;
+        audio.currentTime = 0;
+        audio.play();
+      });
+    }
+  </script>
+</body>
+</html>
